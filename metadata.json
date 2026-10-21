@@ -1,0 +1,6 @@
+{
+  "name": "Gestão de Faltas e Atestados",
+  "description": "Sistema corporativo para controle, monitoramento e relatórios de faltas e atestados médicos por colaborador e setor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

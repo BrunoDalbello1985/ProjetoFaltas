@@ -1,0 +1,121 @@
+{
+  "entities": {
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "Registro de falta, atestado médico e ausência de colaborador na planilha corporativa",
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "description": "Data da ocorrência (ex: 2026-09-20)",
+          "maxLength": 20
+        },
+        "nome": {
+          "type": "string",
+          "description": "Nome completo do colaborador",
+          "maxLength": 100
+        },
+        "setor": {
+          "type": "string",
+          "description": "Setor ou departamento do colaborador (dinâmico e expansível)",
+          "maxLength": 80
+        },
+        "qtdeFaltas": {
+          "type": "number",
+          "description": "Total de faltas no período"
+        },
+        "diasAtestado": {
+          "type": "number",
+          "description": "Dias cobertos por atestado médico"
+        },
+        "faltasInjustificadas": {
+          "type": "number",
+          "description": "Faltas não justificadas"
+        },
+        "semana": {
+          "type": "string",
+          "description": "Semana do mês (ex: 3ª semana)",
+          "maxLength": 50
+        },
+        "mes": {
+          "type": "string",
+          "description": "Mês da ocorrência (ex: setembro)",
+          "maxLength": 50
+        },
+        "ano": {
+          "type": "number",
+          "description": "Ano da ocorrência (ex: 2026)"
+        },
+        "gestor": {
+          "type": "string",
+          "description": "Nome do gestor ou supervisor responsável",
+          "maxLength": 100
+        },
+        "observacoes": {
+          "type": "string",
+          "description": "Notas e justificativas do RH",
+          "maxLength": 500
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Data ISO da última atualização",
+          "maxLength": 50
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "Identificador do usuário que salvou a alteração",
+          "maxLength": 100
+        }
+      },
+      "required": ["data", "nome", "setor", "qtdeFaltas", "diasAtestado", "faltasInjustificadas", "semana", "mes", "ano"]
+    },
+    "Sector": {
+      "title": "Sector",
+      "description": "Setor cadastrado na empresa (ex: Play 5, Cofen, Atendimento, TI)",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identificador único do setor",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "description": "Nome do setor ou departamento",
+          "maxLength": 80
+        },
+        "gestor": {
+          "type": "string",
+          "description": "Nome do gestor ou supervisor responsável",
+          "maxLength": 100
+        },
+        "color": {
+          "type": "string",
+          "description": "Cor ou tema do setor para badges e gráficos",
+          "maxLength": 30
+        },
+        "description": {
+          "type": "string",
+          "description": "Descrição ou informações do setor",
+          "maxLength": 200
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Data ISO de criação",
+          "maxLength": 50
+        }
+      },
+      "required": ["name"]
+    }
+  },
+  "firestore": {
+    "/attendance_records/{recordId}": {
+      "schema": "AttendanceRecord",
+      "description": "Coleção compartilhada de faltas e atestados atualizada em tempo real entre todos os dispositivos"
+    },
+    "/sectors/{sectorId}": {
+      "schema": "Sector",
+      "description": "Coleção compartilhada de setores cadastrados para organização e filtros"
+    }
+  }
+}

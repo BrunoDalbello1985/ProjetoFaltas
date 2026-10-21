@@ -1,0 +1,43 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidRecord(data) {
+      return data.nome is string && data.nome.size() > 0 && data.nome.size() <= 100 &&
+             data.setor is string && data.setor.size() > 0 && data.setor.size() <= 80 &&
+             data.data is string && data.data.size() <= 20 &&
+             data.qtdeFaltas is number && data.qtdeFaltas >= 0 &&
+             data.diasAtestado is number && data.diasAtestado >= 0 &&
+             data.faltasInjustificadas is number && data.faltasInjustificadas >= 0 &&
+             data.semana is string && data.semana.size() <= 50 &&
+             data.mes is string && data.mes.size() <= 50 &&
+             data.ano is number && data.ano >= 2000 && data.ano <= 2100;
+    }
+
+    function isValidSector(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 80;
+    }
+
+    match /attendance_records/{recordId} {
+      allow read: if true;
+      allow create, update: if isValidId(recordId) && isValidRecord(request.resource.data);
+      allow delete: if isValidId(recordId);
+    }
+
+    match /sectors/{sectorId} {
+      allow read: if true;
+      allow create, update: if isValidId(sectorId) && isValidSector(request.resource.data);
+      allow delete: if isValidId(sectorId);
+    }
+
+    // Default deny for all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
